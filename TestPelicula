@@ -1,0 +1,130 @@
+package test.TestPelicula;
+
+import clases.Pelicula.Pelicula;
+
+import java.util.*;
+
+public class TestPelicula {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        List<Pelicula> listaPeliculas = new ArrayList<>();
+
+        listaPeliculas.add(new Pelicula("Inception", "Christopher Nolan", "Ciencia Ficcion", 148, 2010, 9.0));
+        listaPeliculas.add(new Pelicula("Titanic", "James Cameron", "Drama", 195, 1997, 8.5));
+        listaPeliculas.add(new Pelicula("Interstellar", "Christopher Nolan", "Ciencia Ficcion", 169, 2014, 9.5));
+
+        Set<Pelicula> setPeliculas = new HashSet<>();
+
+        setPeliculas.addAll(listaPeliculas);
+
+        setPeliculas.add(new Pelicula("Titanic", "James Cameron", "Drama", 195, 1997, 8.5));
+
+        System.out.println("PELÍCULAS EN HASHSET:");
+
+        for (Pelicula p : setPeliculas) {
+            System.out.println(p);
+        }
+
+        Map<String, List<Pelicula>> mapaGeneros = new HashMap<>();
+
+        for (Pelicula p : listaPeliculas) {
+
+            mapaGeneros.putIfAbsent(
+                    p.getGenero(),
+                    new ArrayList<>());
+
+            mapaGeneros.get(p.getGenero()).add(p);
+        }
+
+        System.out.println("\nPELÍCULAS POR GÉNERO:");
+
+        for (String genero : mapaGeneros.keySet()) {
+
+            System.out.println("\nGénero: " + genero);
+
+            for (Pelicula p : mapaGeneros.get(genero)) {
+                System.out.println(p);
+            }
+        }
+
+        System.out.println("\n--- AGREGAR PELÍCULA ---");
+
+        System.out.print("Nombre: ");
+        String nombre = sc.nextLine();
+
+        System.out.print("Director: ");
+        String director = sc.nextLine();
+
+        System.out.print("Genero: ");
+        String genero = sc.nextLine();
+
+        System.out.print("Duracion: ");
+        int duracion = sc.nextInt();
+
+        System.out.print("Año estreno: ");
+        int anio = sc.nextInt();
+
+        System.out.print("Rating: ");
+        double rating = sc.nextDouble();
+
+        Pelicula nueva = new Pelicula(nombre, director, genero, duracion, anio, rating);
+
+        listaPeliculas.add(nueva);
+        setPeliculas.add(nueva);
+
+        mapaGeneros.putIfAbsent(
+                nueva.getGenero(),
+                new ArrayList<>());
+
+        mapaGeneros.get(nueva.getGenero()).add(nueva);
+
+        System.out.println("\nBUSCAR EN LIST:");
+
+        for (Pelicula p : listaPeliculas) {
+
+            if (p.getNombre().equalsIgnoreCase(nombre)) {
+                System.out.println("Encontrada: " + p);
+            }
+        }
+
+        System.out.println("\nBUSCAR EN SET:");
+
+        if (setPeliculas.contains(nueva)) {
+            System.out.println("La película existe en el HashSet");
+        }
+
+        System.out.println("\nBUSCAR EN MAP:");
+
+        if (mapaGeneros.containsKey(genero)) {
+
+            for (Pelicula p : mapaGeneros.get(genero)) {
+                System.out.println(p);
+            }
+        }
+
+        Collections.sort(
+                listaPeliculas,
+                Comparator.comparingInt(Pelicula::getDuracion)
+        );
+
+        System.out.println("\nPELÍCULAS ORDENADAS POR DURACIÓN:");
+
+        for (Pelicula p : listaPeliculas) {
+            System.out.println(p);
+        }
+
+        Set<Pelicula> treePeliculas = new TreeSet<>(
+                Comparator.comparing(Pelicula::getNombre)
+        );
+
+        treePeliculas.addAll(listaPeliculas);
+
+        System.out.println("\nTREESET ORDENADO POR NOMBRE:");
+
+        for (Pelicula p : treePeliculas) {
+            System.out.println(p);
+        }
+
+        sc.close();
+    }
+}

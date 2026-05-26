@@ -119,7 +119,7 @@ public class TestPelicula {
 
         treePeliculas.addAll(listaPeliculas);
 
-        System.out.println("\nTREESET ORDENADO POR NOMBRE:");
+        System.out.println("\nPELICULA ORDENADO CON TREESET POR NOMBRE:");
 
         for (Pelicula p : treePeliculas) {
             System.out.println(p);
